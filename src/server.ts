@@ -30,24 +30,24 @@ import * as strings from './constants';
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   /**************************************************************************** */
-  app.get( "/filteredimage", async ( req, res ) => {
+  app.get( "/filteredimage", async ( request, response ) => {
 
-    let { image_url } = req.query;
+    let { image_url } = request.query;
 
     if (!image_url) {
-      return res.status(422).send({ auth: true, message: strings.MISSING_URL });
+      return response.status(422).send({ auth: true, message: strings.MISSING_URL });
     }
 
     let filteredPath = await filterImageFromURL(image_url);
-    res.status(200).sendFile(filteredPath, () => { deleteLocalFiles([filteredPath]); });
+    response.status(200).sendFile(filteredPath, () => { deleteLocalFiles([filteredPath]); });
   } );
 
   //! END @TODO1
   
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
-    res.send(strings.DEFAULT_MESSAGE)
+  app.get( "/", async ( request, response ) => {
+    response.send(strings.DEFAULT_MESSAGE)
   } );
   
 
